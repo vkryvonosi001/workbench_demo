@@ -1,18 +1,21 @@
 package com.example.workbench_demo.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Client {
 	@Id
 	@Column(name = "id", nullable = false)
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
+	@Column(name = "name")
 	private String clientName;
+	@Column(name="source")
 	private String source;
 }
