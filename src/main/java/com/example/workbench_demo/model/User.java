@@ -1,5 +1,7 @@
 package com.example.workbench_demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +21,10 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+
     @Column(name = "full_name")
     private String fullName;
+
     private String email;
     private String country;
     @Column(name = "pwc_country_code")
@@ -31,7 +35,7 @@ public class User {
     private String displayTerritory;
 
     @OneToMany(mappedBy = "user")
-    private List<UserGroup> group;
+    private List<UserGroup> groups;
 //    private List<Authorization> authorizations;
 
     public String getFullName() {

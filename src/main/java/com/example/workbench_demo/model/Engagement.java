@@ -20,7 +20,7 @@ public class Engagement {
     @Column(name = "workspace_type")
     private String workspaceType;
     private String territory;
-//    @Column(name = "territory_detail")
+    //    @Column(name = "territory_detail")
 //    private String territoryDetail;
     @Column(name = "line_of_service")
     private String lineOfService;
@@ -34,10 +34,10 @@ public class Engagement {
     private LocalDate periodEnd;
 
     @ManyToOne
-    @JoinColumn(name = "client", referencedColumnName = "id")
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
     @OneToOne
-    @JoinColumn(name = "leader")
+    @JoinColumn(name = "leader_id")
     private TeamMember leader;
     @ManyToOne
     @JoinColumn(name = "created_by")
@@ -46,5 +46,5 @@ public class Engagement {
     @JoinColumn(name = "deleted_by")
     private User deletedBy;
     @OneToMany(mappedBy = "engagement")
-    private List<TeamMember> users;
+    private List<TeamMember> teamMembers;
 }

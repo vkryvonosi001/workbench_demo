@@ -11,11 +11,11 @@ import javax.persistence.Id;
 @Setter
 @Entity
 public class Client {
-	@Id
-	@Column(name = "id", nullable = false)
-	private String id;
-	@Column(name = "name")
-	private String clientName;
-	@Column(name="source")
-	private String source;
+    @Id
+    @Column(name = "id", nullable = false)
+    private String id;
+    @Column(name = "name")
+    private String clientName;
+    @Column(name = "source")
+    private String source;
 }

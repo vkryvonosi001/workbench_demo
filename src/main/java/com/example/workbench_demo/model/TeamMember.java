@@ -1,6 +1,5 @@
 package com.example.workbench_demo.model;
 
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,9 +19,12 @@ public class TeamMember {
     private String name;
     private String email;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "engagement_id", referencedColumnName = "id")
     private Engagement engagement;
-    @OneToMany(mappedBy = "member")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Role> roles;
 }
