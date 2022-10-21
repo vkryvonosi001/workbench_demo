@@ -22,15 +22,6 @@ public class UserService {
         this.engagementRepository = engagementRepository;
     }
 
-    public List<User> getUsersForEngagementByEmail(List<String> emails, String engagementId) {
-        Engagement engagement = engagementRepository.findById(engagementId).orElseThrow(
-                () -> new IllegalArgumentException("User with given ID not found")); //TODO
-        return engagement.getTeamMembers().stream()
-                .filter(teamMember -> emails.contains(teamMember.getEmail()))
-                .map(TeamMember::getUser)
-                .collect(Collectors.toList());
-    }
-
     public User addUser(User user) {
         return userRepository.save(user);
     }

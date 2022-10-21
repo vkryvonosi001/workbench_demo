@@ -4,16 +4,14 @@ import com.example.workbench_demo.dto.user.UserDTO;
 import com.example.workbench_demo.model.User;
 import com.example.workbench_demo.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/")
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -25,13 +23,6 @@ public class UserController {
             @RequestParam(defaultValue = "Internal", required = false) String type,
             @RequestBody List<?> values) { //TODO
         return null;
-    }
-
-    @PostMapping("engagements/{engagementId}/search-users-by-emails")
-    public ResponseEntity<Collection<User>> searchByEmails(@RequestParam String engagementId,
-                                                           @RequestParam(defaultValue = "report", required = false) String limitType,
-                                                           @RequestBody List<String> values) {
-        return ResponseEntity.ok(userService.getUsersForEngagementByEmail(values, engagementId));
     }
 
     @GetMapping("engagements/{engagementId}/search-users")

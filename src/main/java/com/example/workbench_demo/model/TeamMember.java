@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -27,4 +28,17 @@ public class TeamMember {
     private User user;
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TeamMember that = (TeamMember) o;
+        return pwcGuid.equals(that.pwcGuid) && email.equals(that.email) && Objects.equals(engagement, that.engagement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pwcGuid, email, engagement);
+    }
 }
