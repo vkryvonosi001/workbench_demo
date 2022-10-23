@@ -1,10 +1,9 @@
 package com.example.workbench_demo.dto.engagement;
 
-import com.example.workbench_demo.model.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.workbench_demo.model.Role;
+import com.example.workbench_demo.model.TeamMember;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Data

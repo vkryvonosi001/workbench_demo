@@ -1,6 +1,5 @@
 package com.example.workbench_demo.dto.user;
 
-import com.example.workbench_demo.model.TeamMember;
 import com.example.workbench_demo.model.User;
 import com.example.workbench_demo.model.UserGroup;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -1,13 +1,12 @@
 package com.example.workbench_demo.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
 public class Role {
@@ -15,7 +14,8 @@ public class Role {
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private final String title;
+	@NonNull
+	private String title;
 
 	@ManyToOne
 	@JoinColumn(name = "team_member_id")
