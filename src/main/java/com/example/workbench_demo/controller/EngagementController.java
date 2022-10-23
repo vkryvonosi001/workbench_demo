@@ -1,6 +1,7 @@
 package com.example.workbench_demo.controller;
 
 import com.example.workbench_demo.dto.engagement.TeamMemberDTO;
+import com.example.workbench_demo.model.TeamMember;
 import com.example.workbench_demo.model.User;
 import com.example.workbench_demo.service.EngagementService;
 import com.example.workbench_demo.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/engagements")
@@ -35,10 +37,18 @@ public class EngagementController {
     }
 
     @PostMapping("{engagementId}/user")
-    public ResponseEntity<String> addTeamMember(@RequestBody TeamMemberDTO teamMemberDTO,
+    public ResponseEntity<TeamMember> addTeamMember(@RequestBody TeamMemberDTO teamMemberDTO,
+                                                    @PathVariable String engagementId) {
+        TeamMember saved = engagementService.addTeamMember(teamMemberDTO.toTeamMember(), engagementId);
+        return ResponseEntity.ok(saved);
+    }
+
+    @PatchMapping("{engagementId}/user")
+    public ResponseEntity<TeamMember> editTeamMember(@RequestParam String email,
+                                                @RequestBody Map<String, Object> fields,
                                                 @PathVariable String engagementId) {
-        engagementService.addTeamMember(teamMemberDTO.toTeamMember(), engagementId);
-        return ResponseEntity.ok().build();
+        TeamMember edited = engagementService.editTeamMember(fields, engagementId, email);
+        return  ResponseEntity.ok(edited);
     }
 
 }

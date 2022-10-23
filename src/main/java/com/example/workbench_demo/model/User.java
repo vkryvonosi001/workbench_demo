@@ -22,9 +22,6 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "full_name")
-    private String fullName;
-
     private String email;
     private String country;
     @Column(name = "pwc_country_code")
