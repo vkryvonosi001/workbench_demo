@@ -4,11 +4,17 @@ import com.example.workbench_demo.model.User;
 import com.example.workbench_demo.model.UserGroup;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties("authorizations")
 public class UserDTO {
     private String username;
@@ -28,6 +34,18 @@ public class UserDTO {
 
     private List<String> groups;
 
+    public UserDTO(User user) {
+        this.country = user.getCountry();
+        this.email = user.getEmail();
+        this.groups = user.getGroups().stream().map(UserGroup::getName).toList();
+        this.username = user.getUsername();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.lineOfService = user.getLineOfService();
+        this.pwcCountryCode = user.getPwcCountryCode();
+        this.displayTerritory = user.getDisplayTerritory();
+    }
+
     public User toUser() {
         User user = new User();
 
@@ -39,6 +57,7 @@ public class UserDTO {
         user.setLastName(this.getLastName());
         user.setLineOfService(this.getLineOfService());
         user.setPwcCountryCode(this.getPwcCountryCode());
+        user.setDisplayTerritory(this.displayTerritory);
         return user;
     }
 }

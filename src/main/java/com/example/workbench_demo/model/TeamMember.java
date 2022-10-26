@@ -10,6 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Table(name="team_member")
 public class TeamMember {
     @Id
     @Column(name = "id", nullable = false)

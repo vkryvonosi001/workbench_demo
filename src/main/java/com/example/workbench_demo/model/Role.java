@@ -9,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
+@Table(name="role")
 public class Role {
 	@Id
 	@Column(name = "id", nullable = false)

@@ -1,13 +1,10 @@
 package com.example.workbench_demo.service;
 
+import com.example.workbench_demo.model.Domain;
 import com.example.workbench_demo.model.Engagement;
-import com.example.workbench_demo.model.Role;
 import com.example.workbench_demo.model.TeamMember;
 import com.example.workbench_demo.model.User;
-import com.example.workbench_demo.repository.EngagementRepository;
-import com.example.workbench_demo.repository.RoleRepository;
-import com.example.workbench_demo.repository.TeamMemberRepository;
-import com.example.workbench_demo.repository.UserRepository;
+import com.example.workbench_demo.repository.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,14 +23,18 @@ public class EngagementService {
     private final EngagementRepository engagementRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final DomainRepository domainRepository;
     private final TeamMemberRepository teamMemberRepository;
 
     public EngagementService(EngagementRepository engagementRepository,
-                             RoleRepository roleRepository, UserRepository userRepository,
+                             RoleRepository roleRepository,
+                             UserRepository userRepository,
+                             DomainRepository domainRepository,
                              TeamMemberRepository teamMemberRepository) {
         this.engagementRepository = engagementRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.domainRepository = domainRepository;
         this.teamMemberRepository = teamMemberRepository;
     }
 
@@ -47,26 +48,21 @@ public class EngagementService {
 
     public void deleteTeamMember(TeamMember teamMember, String engagementId) {
         Engagement engagement = getEngagementById(engagementId);
+        teamMember.setEngagement(engagement);
 
-        if (!engagement.getTeamMembers().contains(teamMember)) {
-            throw new IllegalArgumentException("Given team member isn't part of the provided engagement");
-        }
-
-        engagement.getTeamMembers().remove(teamMember);
-        engagementRepository.save(engagement);
+        teamMemberRepository.deleteById(getTeamMemberId(teamMember, engagement));
     }
 
-    public TeamMember addTeamMember(TeamMember teamMember, String engagementId) {
+    public void addTeamMember(TeamMember teamMember, String engagementId) {
         User user = getUserByEmail(teamMember.getEmail());
         Engagement engagement = getEngagementById(engagementId);
+        teamMember.setEngagement(engagement);
 
         if (engagement.getTeamMembers().contains(teamMember)) {
             throw new IllegalArgumentException("Given team member is already part of the provided engagement");
         }
-
         validateTeamMember(teamMember, user);
 
-        teamMember.setEngagement(engagement);
         teamMember.setUser(user);
         teamMemberRepository.save(teamMember);
 
@@ -74,10 +70,31 @@ public class EngagementService {
             role.setMember(teamMember);
             roleRepository.save(role);
         });
-        return teamMember;
     }
 
-    public TeamMember editTeamMember(Map<String, Object> fields, String engagementId, String email) {
+    public void addDomains(List<String> domainNames, String engagementId) {
+        Engagement engagement = getEngagementById(engagementId);
+
+        domainNames.forEach(domainName ->
+                domainRepository.save(new Domain(domainName, engagement)));
+
+        List<String> regexes = domainNames.stream()
+                .map(name -> String.format("^[a-zA-Z0-9_\\\\.]+@%s$", name)).toList();
+
+        engagement.getTeamMembers().forEach(teamMember -> {
+            if (regexes.stream().anyMatch(regex -> teamMember.getEmail().matches(regex))) {
+                teamMemberRepository.deleteById(getTeamMemberId(teamMember, engagement));
+            }
+        });
+    }
+
+    public List<String> getDomains(String engagementId) {
+        Engagement engagement = getEngagementById(engagementId);
+
+        return engagement.getDomains().stream().map(Domain::getName).toList();
+    }
+
+    public void editTeamMember(Map<String, Object> fields, String engagementId, String email) {
         Engagement engagement = getEngagementById(engagementId);
 
         TeamMember toEdit = engagement.getTeamMembers().stream()
@@ -91,7 +108,7 @@ public class EngagementService {
                 throw new IllegalArgumentException("Specified field doesn't exist"); //TODO
             }
             field.setAccessible(true);
-            if(key.equals("roles")) {
+            if (key.equals("roles")) {
                 roleRepository.deleteAll(toEdit.getRoles());
             }
             setField(field, toEdit, value);
@@ -100,7 +117,6 @@ public class EngagementService {
             role.setMember(toEdit);
             roleRepository.save(role);
         });
-        return teamMemberRepository.save(toEdit);
     }
 
     private Engagement getEngagementById(String engagementId) {
@@ -120,5 +136,13 @@ public class EngagementService {
         if (!user.getUsername().equals(teamMember.getPwcGuid())) {
             throw new IllegalArgumentException("Pwc guid doesn't match");
         }
+    }
+
+    private static Long getTeamMemberId(TeamMember teamMember, Engagement engagement) {
+        return engagement.getTeamMembers().stream()
+                .filter(member -> member.equals(teamMember))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Given team member" +
+                        " isn't part of the provided engagement")).getId();
     }
 }

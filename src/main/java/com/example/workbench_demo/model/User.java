@@ -1,7 +1,5 @@
 package com.example.workbench_demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "user")
 public class User implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
@@ -34,6 +33,7 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user")
     private List<UserGroup> groups;
+
 //    private List<Authorization> authorizations;
 
     public String getFullName() {

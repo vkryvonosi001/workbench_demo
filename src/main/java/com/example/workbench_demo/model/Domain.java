@@ -1,24 +1,26 @@
 package com.example.workbench_demo.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name="user_group")
-public class UserGroup {
+@Table(name="domain")
+public class Domain {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private final String name;
+    @Column(name = "name")
+    @NonNull
+    private String name;
 
+    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "engagement_id")
+    private Engagement engagement;
 }
