@@ -156,6 +156,23 @@ CREATE TABLE IF NOT EXISTS `workbench_demo`.`user_group` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `workbench_demo`.`domain`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `workbench_demo`.`domain` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(60) NOT NULL,
+  `engagement_id` VARCHAR(36) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_domain_engagement1_idx` (`engagement_id` ASC) VISIBLE,
+  CONSTRAINT `fk_domain_engagement1`
+    FOREIGN KEY (`engagement_id`)
+    REFERENCES `workbench_demo`.`engagement` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

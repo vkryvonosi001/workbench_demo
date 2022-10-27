@@ -6,17 +6,18 @@ import com.example.workbench_demo.repository.UserGroupRepository;
 import com.example.workbench_demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserGroupRepository userGroupRepository;
-    private final EngagementRepository engagementRepository;
 
-    public UserService(UserRepository userRepository, UserGroupRepository userGroupRepository, EngagementRepository engagementRepository) {
+    public UserService(UserRepository userRepository, UserGroupRepository userGroupRepository) {
         this.userRepository = userRepository;
         this.userGroupRepository = userGroupRepository;
-        this.engagementRepository = engagementRepository;
     }
 
     public User addUser(User user) {

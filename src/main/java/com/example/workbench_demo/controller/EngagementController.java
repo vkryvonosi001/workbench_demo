@@ -2,7 +2,9 @@ package com.example.workbench_demo.controller;
 
 import com.example.workbench_demo.dto.engagement.TeamMemberDTO;
 import com.example.workbench_demo.model.User;
+import com.example.workbench_demo.service.DomainService;
 import com.example.workbench_demo.service.EngagementService;
+import com.example.workbench_demo.service.TeamMemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +16,19 @@ import java.util.Map;
 @RequestMapping("/api/v1/engagements")
 public class EngagementController {
     private final EngagementService engagementService;
+    private final DomainService domainService;
+    private final TeamMemberService teamMemberService;
 
-    public EngagementController(EngagementService engagementService) {
+    public EngagementController(EngagementService engagementService, DomainService domainService, TeamMemberService teamMemberService) {
         this.engagementService = engagementService;
+        this.domainService = domainService;
+        this.teamMemberService = teamMemberService;
     }
 
     @DeleteMapping("{engagementId}/user")
     public ResponseEntity<String> deleteTeamMember(@RequestBody TeamMemberDTO teamMemberDTO,
                                                    @PathVariable String engagementId) {
-        engagementService.deleteTeamMember(teamMemberDTO.toTeamMember(), engagementId);
+        teamMemberService.deleteTeamMember(teamMemberDTO.toTeamMember(), engagementId);
         return ResponseEntity.ok().build();
     }
 
@@ -37,7 +43,7 @@ public class EngagementController {
     @PostMapping("{engagementId}/user")
     public ResponseEntity<String> addTeamMember(@RequestBody TeamMemberDTO teamMemberDTO,
                                                 @PathVariable String engagementId) {
-        engagementService.addTeamMember(teamMemberDTO.toTeamMember(), engagementId);
+        teamMemberService.addTeamMember(teamMemberDTO.toTeamMember(), engagementId);
         return ResponseEntity.ok().build();
     }
 
@@ -45,7 +51,7 @@ public class EngagementController {
     public ResponseEntity<String> editTeamMember(@RequestParam String email,
                                                  @RequestBody Map<String, Object> fields,
                                                  @PathVariable String engagementId) {
-        engagementService.editTeamMember(fields, engagementId, email);
+        teamMemberService.editTeamMember(fields, engagementId, email);
         return ResponseEntity.ok().build();
     }
 
@@ -54,13 +60,13 @@ public class EngagementController {
                                              @RequestParam Boolean limitToClientRequest,
                                              @RequestParam Boolean limitToReportShare,
                                              @PathVariable String engagementId) {
-        engagementService.addDomains(domains, engagementId);
+        domainService.addDomains(domains, engagementId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("{engagementId}/domains-config")
     public ResponseEntity<List<String>> getDomains(@PathVariable String engagementId) {
-        return ResponseEntity.ok(engagementService.getDomains(engagementId));
+        return ResponseEntity.ok(domainService.getDomains(engagementId));
     }
 
 
