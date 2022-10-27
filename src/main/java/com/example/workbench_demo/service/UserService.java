@@ -1,7 +1,6 @@
 package com.example.workbench_demo.service;
 
 import com.example.workbench_demo.model.User;
-import com.example.workbench_demo.repository.EngagementRepository;
 import com.example.workbench_demo.repository.UserGroupRepository;
 import com.example.workbench_demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserGroupRepository userGroupRepository;
 
-    public UserService(UserRepository userRepository, UserGroupRepository userGroupRepository) {
+    public UserService(UserRepository userRepository,
+                       UserGroupRepository userGroupRepository) {
         this.userRepository = userRepository;
         this.userGroupRepository = userGroupRepository;
     }

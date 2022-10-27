@@ -17,6 +17,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("user")
+    public ResponseEntity<User> addUser(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.addUser(userDTO.toUser()));
+    }
+
     @PostMapping("users/search")
     public ResponseEntity<?> searchUsers(
             @RequestParam(defaultValue = "Email", required = false) String property,
@@ -42,11 +47,6 @@ public class UserController {
     @GetMapping("profile/{userGuid}")
     public ResponseEntity<?> getUserProfileImage(@RequestParam String userGuid) {
         return null;
-    }
-
-    @PostMapping("user")
-    public ResponseEntity<User> addUser(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.addUser(userDTO.toUser()));
     }
 
 }

@@ -49,7 +49,7 @@ public class EngagementController {
 
     @PatchMapping("{engagementId}/user")
     public ResponseEntity<String> editTeamMember(@RequestParam String email,
-                                                 @RequestBody Map<String, Object> fields,
+                                                 @RequestBody Map<String, Object> fields, //TODO Map<String, String>?
                                                  @PathVariable String engagementId) {
         teamMemberService.editTeamMember(fields, engagementId, email);
         return ResponseEntity.ok().build();
