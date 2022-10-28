@@ -35,4 +35,11 @@ public final class Utils {
                 .orElseThrow(() -> new IllegalArgumentException("Given team member" +
                         " isn't part of the provided engagement")).getId();
     }
+
+    public static void verifyEngagementExists(String engagementId,
+                                              EngagementRepository engagementRepository) {
+        if(!engagementRepository.existsById(engagementId)) {
+            throw new IllegalArgumentException("Engagement with given ID not found");
+        }
+    }
 }
