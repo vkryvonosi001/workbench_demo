@@ -65,9 +65,7 @@ public class TeamMemberService {
     }
 
     public void editTeamMember(Map<String, Object> fields, String engagementId, String email) {
-        if (!engagementRepository.existsById(engagementId)) {
-            throw new IllegalArgumentException("Engagement with given ID not found");
-        }
+        verifyEngagementExists(engagementId, engagementRepository);
         TeamMember toEdit = teamMemberRepository.findByEmailAndEngagementId(email, engagementId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Given team member isn't part of the provided engagement"));

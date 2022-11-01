@@ -2,11 +2,9 @@ package com.example.workbench_demo.controller;
 
 import com.example.workbench_demo.dto.user.UserDTO;
 import com.example.workbench_demo.service.EngagementService;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 

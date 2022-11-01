@@ -20,12 +20,11 @@ public class UserService {
         this.userGroupRepository = userGroupRepository;
     }
 
-    public User addUser(User user) {
+    public void addUser(User user) {
         userRepository.save(user);
         user.getGroups().forEach(userGroup -> {
             userGroup.setUser(user);
             userGroupRepository.save(userGroup);
         });
-        return user;
     }
 }
