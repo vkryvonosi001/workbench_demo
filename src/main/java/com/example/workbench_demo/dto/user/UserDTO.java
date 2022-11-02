@@ -32,6 +32,8 @@ public class UserDTO {
     @JsonProperty("display_territory")
     private String displayTerritory;
 
+    private Boolean isExternal;
+
     private List<String> groups;
 
     public UserDTO(User user) {
@@ -58,6 +60,7 @@ public class UserDTO {
         user.setLineOfService(this.getLineOfService());
         user.setPwcCountryCode(this.getPwcCountryCode());
         user.setDisplayTerritory(this.displayTerritory);
+        user.setIsExternal(this.isExternal);
         return user;
     }
 }

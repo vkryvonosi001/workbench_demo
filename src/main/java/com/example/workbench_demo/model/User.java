@@ -31,6 +31,9 @@ public class User implements Serializable {
     @Column(name = "display_territory")
     private String displayTerritory;
 
+    @Column(name = "is_external")
+    private Boolean isExternal;
+
     @OneToMany(mappedBy = "user")
     private List<UserGroup> groups;
 

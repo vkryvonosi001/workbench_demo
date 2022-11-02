@@ -15,14 +15,14 @@ import static com.example.workbench_demo.service.Utils.verifyEngagementExists;
 
 @Service
 @Transactional
-public class EngagementService {
+public class EngagementUserService {
     private final UserRepository userRepository;
     private final EngagementRepository engagementRepository;
     private final TeamMemberRepository teamMemberRepository;
 
-    public EngagementService(UserRepository userRepository,
-                             EngagementRepository engagementRepository,
-                             TeamMemberRepository teamMemberRepository) {
+    public EngagementUserService(UserRepository userRepository,
+                                 EngagementRepository engagementRepository,
+                                 TeamMemberRepository teamMemberRepository) {
         this.userRepository = userRepository;
         this.engagementRepository = engagementRepository;
         this.teamMemberRepository = teamMemberRepository;
@@ -30,7 +30,7 @@ public class EngagementService {
 
     public List<UserDTO> getUsersForEngagementByEmail(List<String> emails, String engagementId) {
         verifyEngagementExists(engagementId, engagementRepository);
-        return teamMemberRepository.findByEmailsAndEngagementId(emails, engagementId)
+        return teamMemberRepository.findByEmailsForEngagementId(emails, engagementId)
                 .map(member -> new UserDTO(member.getUser())).toList();
     }
 
@@ -38,10 +38,31 @@ public class EngagementService {
         verifyEngagementExists(engagementId, engagementRepository);
 
         List<TeamMember> response = teamMemberRepository
-                .findByCredentialAndEngagementId(credential, credential, engagementId);
+                .findByCredentialForEngagementId(credential, credential, engagementId);
 
         validateCredentialSearchResponse(response, credential, engagementId);
         return response.stream()
+                .map(member -> new UserDTO(member.getUser())).toList();
+    }
+
+    public List<UserDTO> getUsersForEngagementByCredential(String credential,
+                                                           String engagementId,
+                                                           boolean isExternal) {
+        verifyEngagementExists(engagementId, engagementRepository);
+
+        List<TeamMember> response = teamMemberRepository
+                .findByCredentialForEngagementId(credential, credential, engagementId, isExternal);
+
+        validateCredentialSearchResponse(response, credential, engagementId);
+        return response.stream()
+                .map(member -> new UserDTO(member.getUser())).toList();
+    }
+
+    public List<UserDTO> getUsersForEngagement(String engagementId, boolean isExternal) {
+        verifyEngagementExists(engagementId, engagementRepository);
+
+        return teamMemberRepository
+                .findForEngagementId(engagementId, isExternal).stream()
                 .map(member -> new UserDTO(member.getUser())).toList();
     }
 

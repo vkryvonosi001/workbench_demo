@@ -11,16 +11,29 @@ import java.util.stream.Stream;
 
 public interface TeamMemberRepository extends JpaRepository<TeamMember, Long> {
     @Query("select t from TeamMember t where t.email in ?1 and t.engagement.id = ?2")
-    Stream<TeamMember> findByEmailsAndEngagementId(Collection<String> emails, String id);
+    Stream<TeamMember> findByEmailsForEngagementId(Collection<String> emails, String id);
 
 
     @Query("select t from TeamMember t where t.email = ?1 and t.engagement.id = ?2")
-    Optional<TeamMember> findByEmailAndEngagementId(String email, String id);
+    Optional<TeamMember> findByEmailForEngagementId(String email, String id);
 
     @Query("""
             select t from TeamMember t
             where (upper(t.email) like upper(concat('%', ?1, '%')) or upper(t.name) like upper(concat('%', ?2, '%'))) and t.engagement.id = ?3""")
-    List<TeamMember> findByCredentialAndEngagementId(String email, String name, String id);
+    List<TeamMember> findByCredentialForEngagementId(String email, String name, String id);
+
+    @Query("""
+            select t from TeamMember t
+            where (upper(t.email) like upper(concat('%', ?1, '%')) or upper(t.name) like upper(concat('%', ?2, '%')))
+             and t.engagement.id = ?3 and t.user.isExternal = ?4""")
+    List<TeamMember> findByCredentialForEngagementId(String email, String name, String id, Boolean isExternal);
+
+
+
+    @Query("select t from TeamMember t where t.engagement.id = ?1 and t.user.isExternal = ?2")
+    List<TeamMember> findForEngagementId(String id, Boolean isExternal);
+
+
 
 
 }

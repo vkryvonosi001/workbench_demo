@@ -22,6 +22,7 @@ USE `workbench_demo` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `workbench_demo`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `is_external` TINYINT NOT NULL,
   `first_name` VARCHAR(60) NOT NULL,
   `last_name` VARCHAR(60) NOT NULL,
   `email` VARCHAR(255) NOT NULL,

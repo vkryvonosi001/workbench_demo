@@ -66,7 +66,7 @@ public class TeamMemberService {
 
     public void editTeamMember(Map<String, Object> fields, String engagementId, String email) {
         verifyEngagementExists(engagementId, engagementRepository);
-        TeamMember toEdit = teamMemberRepository.findByEmailAndEngagementId(email, engagementId)
+        TeamMember toEdit = teamMemberRepository.findByEmailForEngagementId(email, engagementId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Given team member isn't part of the provided engagement"));
 
