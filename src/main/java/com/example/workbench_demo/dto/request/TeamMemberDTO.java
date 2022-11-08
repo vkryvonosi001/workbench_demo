@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class TeamMemberDTO {
         this.pwcGuid = teamMember.getPwcGuid();
         this.name = teamMember.getName();
         this.email = teamMember.getEmail();
-        this.roles = teamMember.getRoles().stream().map(Role::getTitle).toList();
+        this.roles = teamMember.getRoles().stream().map(Role::getTitle).collect(Collectors.toList());
     }
 
     public TeamMember toTeamMember() {
@@ -34,7 +35,7 @@ public class TeamMemberDTO {
         teamMember.setEmail(this.getEmail());
         teamMember.setName(this.getName());
         teamMember.setPwcGuid(this.getPwcGuid());
-        teamMember.setRoles(this.getRoles().stream().map(Role::new).toList());
+        teamMember.setRoles(this.getRoles().stream().map(Role::new).collect(Collectors.toList()));
         return teamMember;
     }
 }

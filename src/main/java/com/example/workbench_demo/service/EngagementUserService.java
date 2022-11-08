@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.workbench_demo.service.Utils.verifyEngagementExists;
 
@@ -31,7 +32,7 @@ public class EngagementUserService {
     public List<UserDTO> getUsersForEngagementByEmail(List<String> emails, String engagementId) {
         verifyEngagementExists(engagementId, engagementRepository);
         return teamMemberRepository.findByEmailsForEngagementId(emails, engagementId)
-                .map(member -> new UserDTO(member.getUser())).toList();
+                .map(member -> new UserDTO(member.getUser())).collect(Collectors.toList());
     }
 
     public List<UserDTO> getUsersForEngagementByCredential(String credential, String engagementId) {
@@ -42,7 +43,7 @@ public class EngagementUserService {
 
         validateCredentialSearchResponse(response, credential, engagementId);
         return response.stream()
-                .map(member -> new UserDTO(member.getUser())).toList();
+                .map(member -> new UserDTO(member.getUser())).collect(Collectors.toList());
     }
 
     public List<UserDTO> getUsersForEngagementByCredential(String credential,
@@ -55,7 +56,7 @@ public class EngagementUserService {
 
         validateCredentialSearchResponse(response, credential, engagementId);
         return response.stream()
-                .map(member -> new UserDTO(member.getUser())).toList();
+                .map(member -> new UserDTO(member.getUser())).collect(Collectors.toList());
     }
 
     public List<UserDTO> getUsersForEngagement(String engagementId, boolean isExternal) {
@@ -63,7 +64,7 @@ public class EngagementUserService {
 
         return teamMemberRepository
                 .findForEngagementId(engagementId, isExternal).stream()
-                .map(member -> new UserDTO(member.getUser())).toList();
+                .map(member -> new UserDTO(member.getUser())).collect(Collectors.toList());
     }
 
     private void validateCredentialSearchResponse(List<TeamMember> response, String credential,

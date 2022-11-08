@@ -12,9 +12,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByEmailContainsOrUsernameContains(String email, String username);
 
-    @Query("""
-            select u from User u
-            where (upper(u.email) like upper(concat('%', ?1, '%')) or upper(u.lastName) like upper(concat('%', ?2, '%')) or upper(u.firstName) like upper(concat('%', ?3, '%')) or upper(u.username) like upper(concat('%', ?4, '%'))) and u.isExternal = ?5""")
+    @Query("select u from User u " +
+            "where (upper(u.email) like upper(concat('%', ?1, '%')) or upper(u.lastName) like upper(concat('%', ?2, '%')) or upper(u.firstName) like upper(concat('%', ?3, '%')) or upper(u.username) like upper(concat('%', ?4, '%'))) and u.isExternal = ?5")
     List<User> findByCredential(String email, String lastName, String firstName, String username, Boolean isExternal);
 
 
