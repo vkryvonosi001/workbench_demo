@@ -1,4 +1,4 @@
-package com.example.workbench_demo.dto.user;
+package com.example.workbench_demo.dto.request;
 
 import com.example.workbench_demo.model.User;
 import com.example.workbench_demo.model.UserGroup;

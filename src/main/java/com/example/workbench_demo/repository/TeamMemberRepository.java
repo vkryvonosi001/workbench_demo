@@ -25,15 +25,11 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, Long> {
     @Query("""
             select t from TeamMember t
             where (upper(t.email) like upper(concat('%', ?1, '%')) or upper(t.name) like upper(concat('%', ?2, '%')))
-             and t.engagement.id = ?3 and t.user.isExternal = ?4""")
+             and (t.engagement.id = ?3 and t.user.isExternal = ?4)""")
     List<TeamMember> findByCredentialForEngagementId(String email, String name, String id, Boolean isExternal);
 
 
 
     @Query("select t from TeamMember t where t.engagement.id = ?1 and t.user.isExternal = ?2")
     List<TeamMember> findForEngagementId(String id, Boolean isExternal);
-
-
-
-
 }

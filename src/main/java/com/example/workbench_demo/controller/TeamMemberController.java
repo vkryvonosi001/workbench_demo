@@ -1,6 +1,6 @@
 package com.example.workbench_demo.controller;
 
-import com.example.workbench_demo.dto.engagement.TeamMemberDTO;
+import com.example.workbench_demo.dto.request.TeamMemberDTO;
 import com.example.workbench_demo.service.TeamMemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

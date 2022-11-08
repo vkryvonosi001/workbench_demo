@@ -1,6 +1,6 @@
 package com.example.workbench_demo.service;
 
-import com.example.workbench_demo.dto.user.UserDTO;
+import com.example.workbench_demo.dto.request.UserDTO;
 import com.example.workbench_demo.exception.NotMemberOfGivenEngagement;
 import com.example.workbench_demo.model.TeamMember;
 import com.example.workbench_demo.repository.EngagementRepository;
