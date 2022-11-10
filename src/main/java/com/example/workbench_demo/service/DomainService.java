@@ -39,7 +39,7 @@ public class DomainService {
         domainNames.forEach(domainName ->
                 domainRepository.save(new Domain(domainName, engagement)));
         engagement.getTeamMembers().forEach(teamMember -> {
-            if (regexes.stream().anyMatch(regex -> teamMember.getEmail().matches(regex))) {
+            if (regexes.stream().noneMatch(regex -> teamMember.getEmail().matches(regex))) {
                 teamMemberRepository.deleteById(getTeamMemberId(teamMember, engagement));
             }
         });
