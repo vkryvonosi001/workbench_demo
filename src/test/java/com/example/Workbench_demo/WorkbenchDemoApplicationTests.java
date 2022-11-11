@@ -19,7 +19,7 @@ class WorkbenchDemoApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println(teamMemberRepository.findAll().size());
+
 	}
 
 }

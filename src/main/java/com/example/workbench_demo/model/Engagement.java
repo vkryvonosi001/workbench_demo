@@ -45,10 +45,6 @@ public class Engagement {
     @JoinColumn(name = "deleted_by")
     private User deletedBy;
 
-    @OneToOne
-    @JoinColumn(name = "leader_id")
-    private TeamMember leader;
-
     @OneToMany(mappedBy = "engagement")
     private List<TeamMember> teamMembers;
     @OneToMany(mappedBy = "engagement")
